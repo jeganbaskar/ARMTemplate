@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccounts_jeganblob_name": {
-            "value": "devopsblob"
+            "value": "devopsblob1"
     
 	}
     }
