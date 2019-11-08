@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccounts_jeganblob_name": {
+            "defaultValue": "jeganblob",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-04-01",
+            "name": "[parameters('storageAccounts_jeganblob_name')]",
+            "location": "eastus",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "BlobStorage",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(parameters('storageAccounts_jeganblob_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_jeganblob_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(parameters('storageAccounts_jeganblob_name'), '/default/mycontainer')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_jeganblob_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_jeganblob_name'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
+        }
+    ]
+}
