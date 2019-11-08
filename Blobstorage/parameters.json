@@ -4,6 +4,7 @@
     "parameters": {
         "storageAccounts_jeganblob_name": {
             "value": null
-        }
+    
+	}
     }
 }
