@@ -2,20 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "apis_http_dummy_restapiexample_com_api_v1_employees_path": {
-            "type": "SecureString"
-        },
-        "subscriptions_5dc6cc819a24e80086070001_displayName": {
-            "type": "SecureString"
-        },
-        "subscriptions_5dc6cc819a24e80086070002_displayName": {
-            "type": "SecureString"
-        },
-        "users_1_lastName": {
-            "type": "SecureString"
-        },
-        "service_DevopsdummyAPI_name": {
-            "defaultValue": "DevopsdummyAPI",
+            "service_DevopsdummyAPI_name": {
+            "defaultValue": "DevopstestAPI",
             "type": "String"
         }
     },
