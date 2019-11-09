@@ -24,6 +24,7 @@
                     {
                         "tenantId": "5b1b1645-97bb-4518-87f7-8190f080ca0c",
                         "objectId": "637d7639-f4ca-44f6-92b2-5202111cb673",
+                        "value": [],
                         "permissions": {
                             "keys": [
                                 "Get",
