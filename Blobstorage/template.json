@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccounts_jeganblob_name": {
-            "defaultValue": "jeganblobdevops",
+            "defaultValue": "prajanlobdevops",
             "type": "String"
         }
     },
