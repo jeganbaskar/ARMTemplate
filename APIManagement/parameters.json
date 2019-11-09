@@ -3,19 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "apis_http_dummy_restapiexample_com_api_v1_employees_path": {
-            "value": null
+            "value": "testpath"
         },
         "subscriptions_5dc6cc819a24e80086070001_displayName": {
-            "value": null
+            "value": "prajandevopstest"
         },
         "subscriptions_5dc6cc819a24e80086070002_displayName": {
-            "value": null
+            "value": "jegandevopstest"
         },
         "users_1_lastName": {
-            "value": null
+            "value": "Baskaran"
         },
         "service_DevopsdummyAPI_name": {
-            "value": null
+            "value": "devopsapicheck"
         }
     }
 }
