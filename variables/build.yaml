@@ -1,8 +1,15 @@
-# File: variables/build.yml
-variables:
-- name: vmImage
-  value: vs2017-win2016
-- name: arch
-  value: x64
-- name: config
-  value: debug
+# File: jobs/build.yml
+
+parameters:
+  name: ''
+  pool: ''
+  sign: false
+
+jobs:
+- job: ${{ parameters.name }}
+  pool: ${{ parameters.pool }}
+  steps:
+  - script: npm install
+  - script: npm test
+  - ${{ if eq(parameters.sign, 'true') }}:
+    - script: sign
