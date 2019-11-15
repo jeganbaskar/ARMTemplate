@@ -14,8 +14,6 @@ stages:
     pool:
       vmImage: ${{ variables.vmImage }}
     steps:
-
-
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: 'ARM Template Valiadation'
       inputs:
