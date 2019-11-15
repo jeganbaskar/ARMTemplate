@@ -2,7 +2,7 @@
 variables:
 - name: vmImage
   value: vs2017-win2016
--name: subscriptionName
+- name: subscriptionName
   value: ed2868f7-245f-46ad-ab89-b89340fbd4d7
 - name: RGName
   value: JeganRG
