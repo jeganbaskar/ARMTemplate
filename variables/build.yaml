@@ -2,7 +2,11 @@
 variables:
 - name: vmImage
   value: vs2017-win2016
-- name: arch
-  value: x64
-- name: config
-  value: debug
+-name: subscriptionName
+  value: ed2868f7-245f-46ad-ab89-b89340fbd4d7
+- name: RGName
+  value: JeganRG
+- name: location
+  value: East US
+- name: ConnectedServiceName
+  value: ARMPipelineConnection
