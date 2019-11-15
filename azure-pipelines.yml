@@ -19,11 +19,11 @@ stages:
     - task: AzureResourceManagerTemplateDeployment@3
       inputs:
         deploymentScope: 'Resource Group'
-        ConnectedServiceName: 'ARMPipelineConnection'
-        subscriptionName: 'ed2868f7-245f-46ad-ab89-b89340fbd4d7'
+        ConnectedServiceName: ${{ variables.ConnectedServiceName }}
+        subscriptionName: ${{ variables.subscriptionName }}
         action: 'Create Or Update Resource Group'
-        resourceGroupName: 'JeganRG'
-        location: 'East US'
+        resourceGroupName: ${{ variables.RGName }}
+        location: ${{ variables.location }}
         templateLocation: 'Linked artifact'
         csmFile: 'Blobstorage/template.json'
         csmParametersFile: 'Blobstorage/parameters.json'
