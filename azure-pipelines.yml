@@ -1,4 +1,4 @@
-
+name: $(Version).$(rev:r)
 variables:
 - template: variables/build.yaml  # Template reference
 
