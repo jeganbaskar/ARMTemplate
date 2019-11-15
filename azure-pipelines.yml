@@ -35,14 +35,26 @@ stages:
           Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
                       Install-Module -Name ARMHelper -Force -Scope CurrentUser
                       Import-Module -Name ARMHelper
-                      Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
+                      Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)/Blobstorage/parameters.json" -Mode Complete
         FailOnStandardError: true
         azurePowerShellVersion: 'LatestVersion'
 
-    - task: AzurePowerShell@4
-      displayName: 'Show deployed resources'
+- stage: Deploy
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: ${{ variables.vmImage }}
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: 'Azure Deployment:Create Or Update Resource Group action on OC-DC'
       inputs:
-        azureSubscription: ${{ variables.ConnectedServiceName }}
-        ScriptType: 'InlineScript'
-        Inline: 'Test-ARMDeploymentResource -ResourceGroupName ${{ variables.RGName }}-TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)/Blobstorage/parameters.json" -Mode Complete | Select-Object *'
-        azurePowerShellVersion: 'LatestVersion'
+       deploymentScope: 'Resource Group'
+       ConnectedServiceName: ${{ variables.ConnectedServiceName }}
+       subscriptionName:  ${{ variables.subscriptionName }}
+       action: 'Create Or Update Resource Group'
+       resourceGroupName: ${{ variables.RGName }}
+       location: ${{ variables.location }}
+       templateLocation: 'Linked artifact'
+       csmFile: 'Blobstorage/template.json'
+       csmParametersFile: 'Blobstorage/parameters.json'
+       deploymentMode: 'Incremental'
