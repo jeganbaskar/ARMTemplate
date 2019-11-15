@@ -1,6 +1,6 @@
 
 variables:
-- template: vars.yml  # Template reference
+- template: variables/build.yaml  # Template reference
 
 steps:
-- script: echo My favorite vegetable is ${{ variables.favoriteVeggie }}.
+- script: echo My favorite vegetable is ${{ variables.vmImage }}.
