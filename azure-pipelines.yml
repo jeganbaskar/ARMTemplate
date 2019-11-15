@@ -1,11 +1,6 @@
-# File: azure-pipelines.yml
 
-jobs:
+variables:
+- template: vars.yml  # Template reference
 
-- job: Windows
-  pool:
-    vmImage: 'vs2017-win2016'
-  steps:
-  - script: echo This script runs before the template's steps, only on Windows.
-  - template: npm-steps.yml  # Template reference
-  - script: echo This step runs after the template's steps.
+steps:
+- script: echo My favorite vegetable is ${{ variables.favoriteVeggie }}.
