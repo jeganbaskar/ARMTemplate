@@ -17,6 +17,7 @@ stages:
 
 
     - task: AzureResourceManagerTemplateDeployment@3
+      displayName: 'ARM Template Valiadation'
       inputs:
         deploymentScope: 'Resource Group'
         ConnectedServiceName: ${{ variables.ConnectedServiceName }}
@@ -28,3 +29,15 @@ stages:
         csmFile: 'Blobstorage/template.json'
         csmParametersFile: 'Blobstorage/parameters.json'
         deploymentMode: 'Validation'
+    - task: AzurePowerShell@3
+      displayName: 'Check Service exists or not'
+      inputs:
+        azureSubscription:  ${{ variables.subscriptionName }}
+        ScriptType: InlineScript
+        Inline: |
+            Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
+            Install-Module -Name ARMHelper -Force -Scope CurrentUser
+            Import-Module -Name ARMHelper
+            Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)\Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
+        FailOnStandardError: true
+        azurePowerShellVersion: LatestVersion
