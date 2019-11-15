@@ -3,5 +3,3 @@ variables:
 - template: variables/build.yml
 pool:
   vmImage: ${{ variables.vmImage }}
-steps:
-- script: build x ${{ variables.arch }} ${{ variables.config }}
