@@ -1,6 +1,6 @@
 # File: component-x-pipeline.yml
 variables:
-- template: variables/build.yml@template  # Template reference
+- template: variables/build.yml
 pool:
   vmImage: ${{ variables.vmImage }}
 steps:
