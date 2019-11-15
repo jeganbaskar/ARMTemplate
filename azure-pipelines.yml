@@ -1,6 +1,26 @@
 name: $(Version).$(rev:r)
 variables:
-- template: variables/build.yaml  # Template reference
+- template: variables/build.yaml 
 
-steps:
-- script: echo My favorite vegetable is ${{ variables.vmImage }}.
+trigger:
+  branches:
+    include:
+    - '*'
+stages:
+
+- stage: Build
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: ${{ variables.vmImage }}
+    steps:
+
+    - task: AzureResourceGroupDeployment@2
+      inputs:
+        ConnectedServiceName: ${{ variables.ConnectedServiceName }}
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: ${{ variables.RGName }}
+        location: ${{ variables.location }}
+        csmFile: 'Blobstorage/template.json'
+        csmParametersFile: 'Blobstorage/parameters.json'
+        deploymentMode: 'Validation'
