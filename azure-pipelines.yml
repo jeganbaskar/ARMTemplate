@@ -27,28 +27,16 @@ stages:
         csmFile: 'Blobstorage/template.json'
         csmParametersFile: 'Blobstorage/parameters.json'
         deploymentMode: 'Validation'
-    - task: AzurePowerShell@3
-      displayName: 'Check Service exists or not'
+    - task: AzurePowerShell@4
       inputs:
-        azureSubscription:  ${{ variables.subscriptionName }}
-        ScriptType: InlineScript
+        azureSubscription: ${{ variables.ConnectedServiceName }}
+        ScriptType: 'InlineScript'
         Inline: |
-            Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
-            Install-Module -Name ARMHelper -Force -Scope CurrentUser
-            Import-Module -Name ARMHelper
-            Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)\Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
+          Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
+                      Install-Module -Name ARMHelper -Force -Scope CurrentUser
+                      Import-Module -Name ARMHelper
+                      Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)\Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
         FailOnStandardError: true
-        azurePowerShellVersion: LatestVersion
+        azurePowerShellVersion: 'LatestVersion'
 
 
-- task: AzurePowerShell@4
-  inputs:
-    azureSubscription: ${{ variables.ConnectedServiceName }}
-    ScriptType: 'InlineScript'
-    Inline: |
-      Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
-                  Install-Module -Name ARMHelper -Force -Scope CurrentUser
-                  Import-Module -Name ARMHelper
-                  Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)\Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
-    FailOnStandardError: true
-    azurePowerShellVersion: 'LatestVersion'
