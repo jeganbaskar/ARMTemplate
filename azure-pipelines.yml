@@ -15,12 +15,17 @@ stages:
       vmImage: ${{ variables.vmImage }}
     steps:
 
-    - task: AzureResourceGroupDeployment@2
+
+    - task: AzureResourceManagerTemplateDeployment@3
       inputs:
-        ConnectedServiceName: ${{ variables.ConnectedServiceName }}
+        deploymentScope: 'Resource Group'
+        ConnectedServiceName: 'ARMPipelineConnection'
+        subscriptionName: 'ed2868f7-245f-46ad-ab89-b89340fbd4d7'
         action: 'Create Or Update Resource Group'
-        resourceGroupName: ${{ variables.RGName }}
-        location: ${{ variables.location }}
+        resourceGroupName: 'JeganRG'
+        location: 'East US'
+        templateLocation: 'Linked artifact'
         csmFile: 'Blobstorage/template.json'
         csmParametersFile: 'Blobstorage/parameters.json'
-        deploymentMode: 'Validation'
+        deploymentMode: 'Validation''
+    
