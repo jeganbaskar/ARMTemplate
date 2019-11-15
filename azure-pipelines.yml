@@ -1,5 +1,5 @@
 # File: component-x-pipeline.yml
 variables:
-- template: variables/build.yml
+- template: /variables/build.yml
 pool:
   vmImage: ${{ variables.vmImage }}
