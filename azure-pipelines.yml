@@ -35,8 +35,14 @@ stages:
           Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
                       Install-Module -Name ARMHelper -Force -Scope CurrentUser
                       Import-Module -Name ARMHelper
-                      Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)\Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
+                      Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)\Blobstorage/parameters.json" -Mode Complete
         FailOnStandardError: true
         azurePowerShellVersion: 'LatestVersion'
 
-
+    - task: AzurePowerShell@4
+      displayName: 'Show deployed resources'
+      inputs:
+        azureSubscription: ${{ variables.ConnectedServiceName }}
+        ScriptType: 'InlineScript'
+        Inline: 'Test-ARMDeploymentResource -ResourceGroupName ${{ variables.RGName }}-TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)/Blobstorage/parameters.json" -Mode Complete | Select-Object *'
+        azurePowerShellVersion: 'LatestVersion'
