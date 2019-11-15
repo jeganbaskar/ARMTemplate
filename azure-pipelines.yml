@@ -27,5 +27,4 @@ stages:
         templateLocation: 'Linked artifact'
         csmFile: 'Blobstorage/template.json'
         csmParametersFile: 'Blobstorage/parameters.json'
-        deploymentMode: 'Validation''
-    
+        deploymentMode: 'Validation'
