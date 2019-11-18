@@ -38,7 +38,37 @@ stages:
                       Test-ARMExistingResource -ResourceGroupName ${{ variables.RGName }} -TemplateFile "$(Build.SourcesDirectory)/Blobstorage/template.json" -TemplateParameterFile "$(Build.SourcesDirectory)/Blobstorage/parameters.json" -Mode Complete
         FailOnStandardError: true
         azurePowerShellVersion: 'LatestVersion'
+- stage: SchemaBuild
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: ${{ variables.vmImage }}
+      steps:
+      - task: Maven@3
+        displayName: 'Maven Build'
+        inputs:
+          mavenPomFile: '$(Parameters.mavenPOMFile)'
+          goals: 'clean install -s settings.xml'
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          publishJUnitResults: true
+          testRunTitle: '$(Build.DefinitionName)'
+          codeCoverageToolOption: JaCoCo
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          SourceFolder: '$(system.defaultworkingdirectory)'
+          Contents: '**/*.jar'
+          TargetFolder: '$(build.artifactstagingdirectory)'
+          enabled: true
+          timeoutInMinutes: 0
+        condition: succeededOrFailed()
 
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: R1-osdu-platform-$(Build.DefinitionName)'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
+          ArtifactName: 'R1-osdu-platform-schema'
+        condition: succeededOrFailed()
 - stage: Deploy
   jobs:
   - job: BuildJob
